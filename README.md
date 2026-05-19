@@ -2,7 +2,14 @@
 
 This is a basic Android app for viewing the various API offerings that NASA has to offer. 
 It provides the structure for a simple tabular UI using **Jetpack Compose** and **Material Design 3**.
-Will follow the design language of NASA (Fonts, colorchemes and other)
+Will follow the design language of NASA (Typography, ColorScheme and other)
+
+---
+## Style Guide 
+### Typefaces
+- Helvectia Headings 
+- Source Sans Pro Body
+
 ---
 ## Features 
 - Agls Shaders 

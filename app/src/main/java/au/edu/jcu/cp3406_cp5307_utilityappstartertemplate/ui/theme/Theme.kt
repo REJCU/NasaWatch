@@ -10,17 +10,27 @@ import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.graphics.Color
+
+// NASA Core Branding Colors
+val NasaDarkBlue = Color(0xFF0B3D91)
+val NasaRed = Color(0xFFFC3D21)
+val SpaceBlack = Color(0xFF0B0C10)
+
+// Accent & Neutral Colors
+val DeepUniverse = Color(0xFF1F2833)   // secondary containers
+val StarlightSilver = Color(0xFFC5C6C7) // Muted text or borders
+val NebulaPurple = Color(0xFF6A1B9A)    // Secondary accent color
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+    primary =NasaDarkBlue,
+    secondary = NasaRed,
+    tertiary = SpaceBlack
 )
-
-private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
+private val LightColorScheme = darkColorScheme(
+    primary =NasaDarkBlue,
+    secondary = NasaRed,
+    tertiary = SpaceBlack
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),
