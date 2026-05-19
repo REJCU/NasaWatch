@@ -1,19 +1,20 @@
-# Utility App Starter – CP3406 / CP5307
+# NasaWatch – CP3406 
 
-This is a basic Android app template for **Assessment 1: Utility App** in CP3406/CP5603..  
+This is a basic Android app for viewing the various API offerings that NASA has to offer. 
 It provides the structure for a simple tabular UI using **Jetpack Compose** and **Material Design 3**.
+Will follow the design language of NASA (Fonts, colorchemes and other)
+---
+## Features 
+- Agls Shaders 
 
 ---
-
 ## Getting Started
-
 ### How to Run
 1. Clone or download this repo  
 2. Open in Android Studio  
-3. Run on an emulator or physical device (API 26+ recommended)  
+3. Run on an emulator or physical device (API 36+ recommended)  
 
 ---
-
 ## Composables
 
 ### UtilityApp()
@@ -41,15 +42,6 @@ It provides the structure for a simple tabular UI using **Jetpack Compose** and 
 | 5    | Retrofit  | Not included in starter          |
 
 ---
-
-## Suggested Extensions
-- Replace counter with a real utility (e.g., hydration tracker, timer)  
-- Add a ViewModel for state management  
-- Use SharedPreferences or DataStore to persist settings  
-- Add a simple API call using Retrofit (e.g., fetch weather or quotes)  
-
----
-
 ## 📚 License
 This template is provided for educational use in CP3406.  
 Feel free to modify and extend it for your assessment.
