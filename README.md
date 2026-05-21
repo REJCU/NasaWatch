@@ -10,9 +10,13 @@ Will follow the design language of NASA (Typography, ColorScheme and other)
 - Helvectia Headings 
 - Source Sans Pro Body
 
+### Color Palette 
+- Follows the NASA palette, which meets the highest standard of 508 color contrast requirements
+- AGLS shaders to provide a backdrop to 
+
 ---
 ## Features 
-- Agls Shaders 
+- AGSL Shaders 
 
 ---
 ## Getting Started

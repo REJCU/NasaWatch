@@ -29,30 +29,76 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import au.edu.jcu.cp3406_cp5307_utilityappstartertemplate.ui.theme.CP3406_CP5603UtilityAppStarterTemplateTheme
+// shader imports
+import au.edu.jcu.cp3406_cp5307_utilityappstartertemplate.ui.theme.BACKGROUND_SHADER_SRC
+import android.graphics.RuntimeShader
+import android.os.Build
+import androidx.annotation.RequiresApi
+// shader anim
+import androidx.compose.ui.draw.drawWithCache
+import androidx.compose.ui.graphics.ShaderBrush
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.runtime.getValue
+
 
 class MainActivity : ComponentActivity() {
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU) // shaders requires version 33
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             CP3406_CP5603UtilityAppStarterTemplateTheme {
-                UtilityApp()
+                val shader = remember { RuntimeShader(BACKGROUND_SHADER_SRC) }
+                val brush = remember { ShaderBrush(shader) }
+
+                UtilityApp(shader, brush)
             }
         }
     }
 }
 
+
+
 @Preview(showBackground = true)
 @Composable
 fun UtilityAppPreview() {
     CP3406_CP5603UtilityAppStarterTemplateTheme {
-        UtilityApp()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            val shader = RuntimeShader(BACKGROUND_SHADER_SRC)
+            val brush = ShaderBrush(shader)
+            UtilityApp(shader, brush)
+        } else {
+            Text("Shader support requires Android 13+")
+        }
     }
 }
 
+// either svg or programmatically
 @Composable
-fun UtilityApp() {
+fun AppLogo () {
+
+}
+
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
+@Composable
+fun UtilityApp(shader: RuntimeShader ,brush: ShaderBrush) {
     var selectedTab by remember { mutableStateOf("Utility") }
+
+    // infinite transition logic
+    val infiniteTransition = rememberInfiniteTransition(label = "ShaderTime")
+    val time by infiniteTransition.animateFloat(
+        initialValue = 0f,
+        targetValue = 10f, // one cycle
+        animationSpec = infiniteRepeatable(
+            animation = tween(10000, easing = LinearEasing), // 10 seconds per loop
+            repeatMode = androidx.compose.animation.core.RepeatMode.Restart
+        ),
+        label = "TimeUniform"
+    )
 
     Scaffold(
         bottomBar = {
@@ -72,7 +118,26 @@ fun UtilityApp() {
             }
         }
     ) { innerPadding ->
-        Box(modifier = Modifier.padding(innerPadding)) {
+        Box(modifier = Modifier
+            .padding(innerPadding)
+            .fillMaxSize()
+            .drawWithCache {
+                shader.setFloatUniform(
+                    "iResolution",
+                    size.width,
+                    size.height
+                )
+                shader.setFloatUniform("iResolution", size.width, size.height)
+                shader.setFloatUniform("iTime", time)
+                shader.setFloatUniform("iDuration", 2.0f)
+
+                onDrawBehind {
+                    drawRect(brush)
+                }
+            }
+        )
+    {
+
             when (selectedTab) {
                 "Utility" -> UtilityScreen()
                 "Settings" -> SettingsScreen()
