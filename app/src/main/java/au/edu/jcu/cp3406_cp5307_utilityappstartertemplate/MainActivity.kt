@@ -45,7 +45,7 @@ import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.content.MediaType
-import androidx.compose.runtime.getValue
+import androidx.compose.ui.graphics.Interval
 import au.edu.jcu.cp3406_cp5307_utilityappstartertemplate.BuildConfig
 import java.net.URL
 // retrofit
@@ -54,6 +54,7 @@ import retrofit2.http.Query
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 import kotlinx.coroutines.flow.Flow
+import java.util.UUID
 
 const val myKey = BuildConfig.NASA_API_KEY
 
@@ -94,6 +95,39 @@ data class TrackedPlant(
         @RequiresApi(Build.VERSION_CODES.O)
         get() = daysUntilNextWater < 0
 }
+
+class PlantRepo(private val api: PlantAPI) {
+    @RequiresApi(Build.VERSION_CODES.O)
+    private val _trackedPlants = mutableListOf(
+        TrackedPlant(UUID.randomUUID().toString(), "Rose", "Crimson Siluetta", 3, LocalDate.now().minusDays(1)),
+        TrackedPlant(UUID.randomUUID().toString(), "Lily", "Casa Blanca", 2, LocalDate.now().minusDays(2)),
+    )
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun getTrackedPlants(): List<TrackedPlant> = _trackedPlants.toList()
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun updateWateringTime(plantId: String) {
+        val index = _trackedPlants.indexOfFirst { it.id == plantId }
+        if (index != -1) {
+            val plant = _trackedPlants[index]
+            _trackedPlants[index] = plant.copy(lastWatered = LocalDate.now())
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun addNewPlant(name: String, species: String, interval: Int)  {
+        val newPlant = TrackedPlant(
+            id = UUID.randomUUID().toString(),
+            name = name,
+            species = species,
+            wateringIntervalDays = interval,
+            lastWatered = LocalDate.now()
+        )
+        _trackedPlants.add(newPlant)
+    }
+}
+
 
 
 class MainActivity : ComponentActivity() {
